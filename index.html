@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Event Check-In</title>
+    <style>
+        /* Global Styles */
+        body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
+        .container { width: 90%; max-width: 1100px; margin: auto; padding: 20px; }
+
+        /* Header */
+        header { background: #004aad; color: white; padding: 15px 0; text-align: center; }
+        .logo { font-size: 26px; font-weight: bold; text-transform: uppercase; }
+        .nav { margin-top: 5px; }
+        .nav a { color: white; text-decoration: none; margin: 0 15px; font-size: 16px; font-weight: bold; }
+        .nav a:hover { text-decoration: underline; }
+
+        /* Event Section */
+        .event-container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); text-align: center; margin-top: 20px; }
+        .event-container img { width: 100%; border-radius: 10px; max-height: 400px; object-fit: cover; }
+        .btn { padding: 12px 20px; background-color: #ff5733; color: white; border: none; cursor: pointer; font-size: 18px; font-weight: bold; border-radius: 5px; margin-top: 15px; transition: 0.3s; }
+        .btn:hover { background-color: #d84315; transform: scale(1.05); }
+
+        /* Popup Form */
+        .popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 25px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); border-radius: 10px; width: 350px; text-align: center; }
+        .popup input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; }
+        .close { cursor: pointer; float: right; font-size: 20px; color: red; font-weight: bold; }
+        .close:hover { color: darkred; }
+
+        /* Footer */
+        footer { background: #222; color: white; text-align: center; padding: 15px; margin-top: 20px; }
+        footer a { color: #f4f4f4; text-decoration: none; margin: 0 10px; }
+        footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">College Events</div>
+            <nav class="nav">
+                <a href="#">Home</a>
+                <a href="#">Events</a>
+                <a href="#">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Event Section -->
+    <div class="container">
+        <div class="event-container">
+            <h2 id="event-title">Tech Fest 2025</h2>
+            <img id="event-image" src="https://source.unsplash.com/1000x400/?conference,technology" alt="Event Image">
+            <p><strong>Date:</strong> <span id="event-date">March 25, 2025</span></p>
+            <p><strong>Time:</strong> <span id="event-time">10:00 AM - 4:00 PM</span></p>
+            <button class="btn" onclick="openForm()">Register Now</button>
+        </div>
+    </div>
+
+    <!-- Participation Form Popup -->
+    <div class="popup" id="popup-form">
+        <span class="close" onclick="closeForm()">✖</span>
+        <h3>Register for Event</h3>
+        <input type="text" id="name" placeholder="Your Name" required><br>
+        <input type="text" id="class" placeholder="Your Class" required><br>
+        <input type="tel" id="contact" placeholder="Your Contact Number" required><br>
+        <input type="email" id="email" placeholder="Your Email" required><br>
+        <button class="btn" onclick="submitForm()">Submit</button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 College Events | <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+    </footer>
+
+    <script>
+        function openForm() {
+            document.getElementById("popup-form").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("popup-form").style.display = "none";
+        }
+
+        async function submitForm() {
+            const formData = {
+                name: document.getElementById("name").value,
+                class: document.getElementById("class").value,
+                contact: document.getElementById("contact").value,
+                email: document.getElementById("email").value
+            };
+
+            const response = await fetch("https://script.google.com/macros/s/AKfycbxRkMkK2ZKvwmkUqc_SUi3s_I7_2bJODIrlRtIIFlIG03miKBDbzytp0ckRHUfsLXg_/exec", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+            alert(result.message);
+            closeForm();
+        }
+    </script>
+
+</body>
+</html>
