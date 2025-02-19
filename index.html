@@ -228,6 +228,19 @@
 
         function submitBooking(e) {
             e.preventDefault();
+            const formData = new FormData(document.getElementById('bookingForm'));
+            const scriptURL = 'https://script.google.com/macros/s/AKfycby3G-QpYIaZMUVJH1zoTy3inNNoHGrZVpHZeEA7Yc1VAg4lgA_I1WvgbCQHtw0AiQEJ/exec';
+
+            fetch(scriptURL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                alert('Booking Successful!');
+                closeModal();
+                document.getElementById('bookingForm').reset();
+            })
+            .catch(error => alert('Error! Booking failed.'));
             closeModal();
             document.getElementById('messagePopup').style.display = 'block';
             setTimeout(() => {
