@@ -236,11 +236,11 @@
                 body: formData
             })
             .then(response => {
-                alert('Booking Successful!');
+                alert('participation Successful!');
                 closeModal();
                 document.getElementById('bookingForm').reset();
             })
-            .catch(error => alert('Error! Booking failed.'));
+            .catch(error => alert('Error! participation failed.'));
             closeModal();
             document.getElementById('messagePopup').style.display = 'block';
             setTimeout(() => {
