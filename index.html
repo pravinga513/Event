@@ -199,7 +199,8 @@
     <div id="messagePopup" class="message-popup">You will receive your certificate shortly!</div>
 
     <footer>
-        &copy; 2025 College Events. All Rights Reserved.
+        &copy; 2025 College Events. All Rights Reserved.<br>
+        <a style="color: white;" href="admin.html">Admin Login</a>
     </footer>
 
     <script>
@@ -229,18 +230,18 @@
         function submitBooking(e) {
             e.preventDefault();
             const formData = new FormData(document.getElementById('bookingForm'));
-            const scriptURL = 'https://script.google.com/macros/s/AKfycby3G-QpYIaZMUVJH1zoTy3inNNoHGrZVpHZeEA7Yc1VAg4lgA_I1WvgbCQHtw0AiQEJ/exec';
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyXDEy4G0vUx5Y8dSonDCySmpSIx9GGZBIKvQ_-YH8v74ErIs85puGj33c-EuVd1jIY/exec';
 
             fetch(scriptURL, {
                 method: 'POST',
                 body: formData
             })
             .then(response => {
-                alert('participation Successful!');
+                alert('Booking Successful!');
                 closeModal();
                 document.getElementById('bookingForm').reset();
             })
-            .catch(error => alert('Error! participation failed.'));
+            .catch(error => alert('Error! Booking failed.'));
             closeModal();
             document.getElementById('messagePopup').style.display = 'block';
             setTimeout(() => {
