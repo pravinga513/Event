@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #eef2f3;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .login-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        input {
+            padding: 10px;
+            margin: 10px;
+            width: 90%;
+            max-width: 300px;
+            font-size: 16px;
+        }
+        button {
+            padding: 12px 20px;
+            background-color: #1e3a8a;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            width: 90%;
+            max-width: 300px;
+        }
+        button:hover {
+            background-color: #163275;
+        }
+        .admin-container {
+            margin-top: 20px;
+        }
+        .count-box {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px auto;
+            background: white;
+            padding: 10px;
+            display: inline-block;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        }
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            padding: 10px;
+        }
+        table {
+            width: 100%;
+            max-width: 900px;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #1e3a8a;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            th, td {
+                padding: 8px;
+                font-size: 14px;
+            }
+            button {
+                font-size: 14px;
+                padding: 10px;
+            }
+            input {
+                font-size: 14px;
+            }
+            .count-box {
+                font-size: 16px;
+                padding: 8px;
+            }
+        }
+        footer {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+          
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container" id="login-section">
+        <h2>Admin Login</h2>
+        <input type="password" id="password" placeholder="Enter Admin Password">
+        <button onclick="login()">Login</button>
+    </div>
+
+    <div id="admin-section" style="display: none;">
+        <h2>Registered Participants</h2>
+        <div class="count-box">
+            Total Participants: <span id="count">0</span>
+        </div>
+        <div class="table-container">
+            <table id="data-table">
+                <thead>
+                    <tr id="table-header">
+                        <th>Sr. No.</th> <!-- Sr. No. Column -->
+                    </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
+    </div>
+<br>
+    <footer>
+        &copy; 2025 College Events. All Rights Reserved.<br>
+        <a style="color: white;" href="index.html">Home</a>
+    </footer>
+    <script>
+        const ADMIN_PASSWORD = "123"; // Change this to your password
+        fetchData();
+
+        function login() {
+            let enteredPassword = document.getElementById('password').value;
+            if (enteredPassword === ADMIN_PASSWORD) {
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('admin-section').style.display = 'block';
+            } else {
+                alert("Incorrect Password!");
+            }
+        }
+
+        function fetchData() {
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyXDEy4G0vUx5Y8dSonDCySmpSIx9GGZBIKvQ_-YH8v74ErIs85puGj33c-EuVd1jIY/exec';
+            fetch(`${scriptURL}?action=getData`)
+                .then(response => response.json())
+                .then(data => {
+                    displayData(data);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function displayData(data) {
+            let tableHeader = document.getElementById('table-header');
+            let tableBody = document.getElementById('table-body');
+            let countBox = document.getElementById('count');
+
+            tableHeader.innerHTML = "<th>Sr. No.</th>"; // Reset Header with Sr. No.
+            tableBody.innerHTML = "";
+
+            if (data.length > 0) {
+                // Add column headers dynamically
+                Object.keys(data[0]).forEach(key => {
+                    let th = document.createElement('th');
+                    th.innerText = key;
+                    tableHeader.appendChild(th);
+                });
+
+                // Add data rows with Sr. No.
+                data.forEach((row, index) => {
+                    let tr = document.createElement('tr');
+
+                    // Add Sr. No. column
+                    let srNoTd = document.createElement('td');
+                    srNoTd.innerText = index + 1;
+                    tr.appendChild(srNoTd);
+
+                    // Add other columns
+                    Object.values(row).forEach(value => {
+                        let td = document.createElement('td');
+                        td.innerText = value;
+                        tr.appendChild(td);
+                    });
+
+                    tableBody.appendChild(tr);
+                });
+
+                countBox.innerText = data.length;
+            } else {
+                tableBody.innerHTML = "<tr><td colspan='5'>No Data Found</td></tr>";
+                countBox.innerText = "0";
+            }
+        }
+    </script>
+</body>
+</html>
